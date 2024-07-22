@@ -8,7 +8,7 @@
 	3.According to the coding style of the open source community, the uboot driver is also written in the style of the inbox driver(eg. latest v6.9.5 r8169_main.c) and no longer refers to the rtk driver.
 	4.if there is a conflict between the two(uboot v2024.04, and inbox v6.9.5) in terms of code style, please use the uboot driver as the standard, because of uboot source code structor is diff from kernel driver.
 
-0612_v6/7:
+0612_v6/7/8:
 	1.correct some compile error
 */
 
@@ -53,8 +53,17 @@
  * 26 August 2006 Mihai Georgian <u-boot@linuxnotincluded.org.uk>
  * Modified to use le32_to_cpu and cpu_to_le32 properly
  */
+
+/*
+dali: As mentioned above, provide compatibility with some old platforms
+*/
+//#undef RK_v201709
+#define RK_v201709 1
+
 #include <common.h>
+#ifndef RK_v201709
 #include <cpu_func.h>
+#endif
 #include <dm.h>
 #include <errno.h>
 #include <log.h>
@@ -94,12 +103,6 @@ dali: the latest uboot rtl8169.c default enable CONFIG_DM_ETH，however some cus
 #define DEBUG_RTL8169_RX 1
 #endif
 */
-
-/*
-dali: As mentioned above, provide compatibility with some old platforms
-*/
-//#undef RK_v201709
-#define RK_v201709 1
 
 #undef NEEDS_WrRamCodeToMicroP
 
